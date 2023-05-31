@@ -47,7 +47,6 @@ def reset_game():
     pipe_group.empty()
     flappy.rect.x = 100
     flappy.rect.y = 765
-    return score
 
 
 class Bird(pygame.sprite.Sprite):
@@ -131,7 +130,6 @@ class Button():
         self.rect.topleft = (x, y)
 
     def draw(self):
-
         action = False
 
         # get mouse position
@@ -140,9 +138,9 @@ class Button():
         # check if mouse is over the button
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] == 1:
-                return(True)
+                action = True
             else:
-                return(False)
+                action = False
 
         # draw button
         screen.blit(self.image, (self.rect.x, self.rect.y))
@@ -160,8 +158,8 @@ def Tutorial(high_score):
 
     # create restart button instance
     button = Button(screen_width // 2 - 60, screen_height // 2 - 125, button_img)
+    start_time = pygame.time.get_ticks()
     score_added = False
-
     run = True
     while run:
         clock.tick(fps)
@@ -288,6 +286,7 @@ def Tutorial(high_score):
         # check for game over and reset
         if game_over == True:
             if button.draw() == True:
+                start_time = pygame.time.get_ticks()
                 game_over = False
                 reset_game()
                 score = 0
